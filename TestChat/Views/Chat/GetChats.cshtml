@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "My Chats";
+}
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Converters
+@model TestChat.Models.ChatsInfoDto;
+
+<br />
+
+<div>
+    <div class="chat-body">
+            <div class="chat-content">
+    <input type="text" data-bind="value: $root.NewCompanion" />
+    </div></div>
+    <input class="btn btn-primary" type="button" id="sendBtn" value="Создать чат" data-bind="click: $root.TryCreateChat"/>
+</div>
+
+<br/>
+
+<div id="chats">
+    <div class="chat-body">
+            <div class="chat-content">
+    <h4>Мои чаты</h4>
+    
+    <div data-bind="foreach: $root.Model.Chats()">
+        <div style="cursor: pointer;" data-bind="click: $root.OpenChat">
+            <span data-bind="text: Companion"></span>
+        </div>
+    </div>
+    </div></div>
+</div>
+
+<script src="@Url.Content("~/js/jquery/dist/jquery.js")"></script>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.0.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.js"></script>
+
+<script>
+
+
+    function MyChatsViewModel(model) {
+        var vm = this;
+        vm.Model = ko.mapping.fromJS(model);
+        vm.NewCompanion = ko.observable("");
+
+        var openChatUrl = '@Url.Action("GetChat", "Chat")';
+        var tryCreateChatUrl = '@Url.Action("TryCreateChat", "Chat")';
+
+        vm.OpenChat = function(currentChat) {
+
+            window.open(openChatUrl + '?chatId=' + currentChat.ChatId(), '_blank');
+        }
+
+        vm.TryCreateChat = function() {
+
+            jQuery.ajax({
+                url: tryCreateChatUrl + '?companion=' + vm.NewCompanion(),
+                success: function (result) {
+                    if (result.success === false) {
+                        alert(result.message);
+                    } else {
+                        location.reload();
+                    }
+                }
+            });
+        }
+    }
+    
+
+    $(function() {
+
+        var model = new MyChatsViewModel(@Html.Raw(JsonConvert.SerializeObject(Model, new IsoDateTimeConverter())));
+        ko.applyBindings(model);
+    });
+
+</script>

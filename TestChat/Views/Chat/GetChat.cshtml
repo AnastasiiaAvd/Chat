@@ -1,0 +1,129 @@
+﻿@{
+    ViewData["Title"] = "My Chat";
+}
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Converters
+@model TestChat.Models.ChatDto;
+<head><link rel="stylesheet" href="~/css/GetChatStyles.css" asp-append-version="true" /> </head>
+<br />
+     
+@*<div id="chatroom">
+
+    <div data-bind="foreach: $root.Model.Messages()">
+        <br/>
+        <h4>
+            <p data-bind="text: DisplayName"></p>
+        </h4>
+        (<span data-bind="text: CreationDate"></span>)
+        <span data-bind="text: Text"></span>
+        <br/>
+        <hr/>
+        <br/>
+    </div>
+
+</div>
+
+<div id="inputForm">
+    <input type="text" id="message" placeholder="Введите сообщение..." data-bind="value: $root.TextField" />
+    <input type="button" id="sendBtn" value="Отправить" data-bind="click: $root.SendMessage" />
+</div>*@
+<div class="container bootstrap snippets bootdeys">
+<div class="col-md-7 col-xs-12 col-md-offset-2">
+  <!-- Panel Chat -->
+  <div class="panel" id="chat">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <i class="icon wb-chat-text" aria-hidden="true">Chat</i>
+      </h3>
+    </div>
+    <div id="chatroom" class="panel-body">
+      <div class="chats" data-bind="foreach: $root.Model.Messages()">
+        <div class="chat">
+          <div class="chat-avatar">
+            <a class="avatar avatar-online" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="June Lane">
+              <img src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg" alt="...">
+              <i></i>
+            </a>
+          </div>
+          <div class="chat-body">
+            <div class="chat-content">
+                <span class="chat-time" data-bind="text: DisplayName"></span>
+              <p data-bind="text: Text"></p>
+              <time class="chat-time" data-bind="text: CreationDate"></time>
+            </div>
+          </div>
+        </div>       
+      </div>
+    </div>
+    <div id="inputForm" class="panel-footer">
+      <form>
+        <div class="input-group">
+          <input id="message" type="text" class="form-control" placeholder="Введите сообщение..." data-bind="value: $root.TextField">
+          <span class="input-group-btn">
+            <button id="sendBtn" class="btn btn-primary" type="button" data-bind="click: $root.SendMessage">Отправить</button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- End Panel Chat -->
+</div>
+</div>
+
+
+<script src="@Url.Content("~/js/jquery/dist/jquery.js")"></script>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.0.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.js"></script>
+<script src="@Url.Content("~/js/microsoft/signalr/dist/browser/signalr.js")"></script>
+<script>
+
+    function ChatViewModel(model) {
+        var vm = this;
+        vm.Model = ko.mapping.fromJS(model);
+        vm.TextField = ko.observable("");
+
+        var chatId = vm.Model.ChatId();
+
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/chat")
+            .build();
+
+        hubConnection.on("Receive", function (message, userName, date) {
+
+            vm.Model.Messages.push(
+                {
+                    DisplayName: ko.observable(userName),
+                    CreationDate: ko.observable(date),
+                    Text: ko.observable(message)
+                }
+            );
+
+        });
+
+        vm.SendMessage = function() {
+            let message = vm.TextField();
+            if (!message) {
+                alert("Введите сообщение!");
+                return;
+            }
+            hubConnection.invoke("Send", message, chatId);
+            vm.TextField("");
+        }
+
+        hubConnection.start().then(function(results){
+                    hubConnection.invoke("JoinToChat", chatId);
+                });
+    }
+    
+
+    $(function() {
+
+        var model = new ChatViewModel(@Html.Raw(JsonConvert.SerializeObject(Model, new IsoDateTimeConverter())));
+        ko.applyBindings(model);
+    });
+
+    $(function(){
+    $(".chat-list-wrapper, .message-list-wrapper").niceScroll();
+}) 
+
+</script>
