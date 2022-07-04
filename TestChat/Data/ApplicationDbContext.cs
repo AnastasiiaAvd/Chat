@@ -12,15 +12,5 @@ namespace TestChat.Data
             : base(options)
         {
         }
-
-        public DbSet<Message> Messages { get; set; }
-        public DbSet<Chat> Chats { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new MessageConfigurationBuilder());
-            modelBuilder.ApplyConfiguration(new ChatConfigurationBuilder());
-            base.OnModelCreating(modelBuilder);
-        }
     }
 }
