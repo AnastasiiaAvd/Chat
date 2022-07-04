@@ -1,36 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nasty\\source\\repos\\TestChat\\TestChat\\TestChat.csproj": {}
+    "D:\\Projects\\TestChat\\TestChat.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nasty\\source\\repos\\TestChat\\TestChat\\TestChat.csproj": {
+    "D:\\Projects\\TestChat\\TestChat.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nasty\\source\\repos\\TestChat\\TestChat\\TestChat.csproj",
+        "projectUniqueName": "D:\\Projects\\TestChat\\TestChat.csproj",
         "projectName": "TestChat",
-        "projectPath": "C:\\Users\\nasty\\source\\repos\\TestChat\\TestChat\\TestChat.csproj",
-        "packagesPath": "C:\\Users\\nasty\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nasty\\source\\repos\\TestChat\\TestChat\\obj\\",
+        "projectPath": "D:\\Projects\\TestChat\\TestChat.csproj",
+        "packagesPath": "C:\\Users\\Anastasiia.Avdeichik\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\TestChat\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\nasty\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Anastasiia.Avdeichik\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net6.0-windows7.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net6.0-windows7.0": {
+            "targetAlias": "net6.0-windows",
             "projectReferences": {}
           }
         },
@@ -41,8 +40,8 @@
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
           "dependencies": {
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
